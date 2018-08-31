@@ -1,24 +1,14 @@
 <template>
 <div id="app">
-    <top-head></top-head>
-    <base-side></base-side>
     <router-view/>
 </div>
 </template>
 
 <script>
-import Header from './components/Header.vue';
-import BaseSide from './components/BaseSide.vue';
 export default {
     name: 'App',
     data () {
-        return {
-
-        }
-    },
-    components: {
-       'top-head': Header,
-       'base-side': BaseSide
+        return {};
     }
 };
 </script>

@@ -1,10 +1,10 @@
 <template>
 <ul class="base-side">
-    <router-link :to="{path: '/'}" active-class="active" exact>
+    <router-link :to="{path: '/home'}" active-class="active" exact>
         <li>博客列表</li>
     </router-link>
     <router-link :to="{path: '/add'}" active-class="active" exact>
-        <li>新增</li>
+        <li>新增博客</li>
     </router-link>
 </ul>
 </template>
@@ -27,6 +27,10 @@ export default {};
         text-align: center;
         font-size: 16px;
         cursor: pointer;
+    }
+    .active{
+        font-size: 17px;
+        font-weight: 700;
     }
 
 }

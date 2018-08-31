@@ -69,6 +69,7 @@ export default {
                                 type: 'error'
                             });
                         };
+                        this.$router.push('/home');
                     }).catch(err => {
                         console.log(err);
                     });
@@ -81,7 +82,7 @@ export default {
 <style lang='scss'>
 html,
 body {
-  background-color: #dfe9fb;
+  background-color: #f4f4f4;
 }
 .login-page {
   padding: 0 500px;

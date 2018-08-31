@@ -18,6 +18,10 @@ export default {
                     return ret;
                 }]
             }).then(res => {
+                if (!res.data.isSuccess && res.data.error === '200') {
+                    location.href = '/';
+                    return false;
+                }
                 return Promise.resolve(res.data);
             }, err => {
                 return Promise.reject(err);

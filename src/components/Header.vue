@@ -1,16 +1,48 @@
 <template>
     <div class="header">
         <div>个人博客管理平台</div>
-        <div class="loginout">退出</div>
+        <div class="loginout">
+            <span class="user">{{username}}</span>
+            <span @click="loginOut">退出</span>
+        </div>
     </div>
 </template>
 
 <script>
 export default {
-  data () {
-    return {
-    };
-  }
+    data () {
+        return {
+           username: ''
+        };
+    },
+    mounted () {
+        this.$ajax({
+            url: `${process.env.API_MYBLOG_PATH}/getUserInfo`
+        }).then(res => {
+            if (!res.isSuccess) {
+                return this.$message({
+                    message: res.message,
+                    type: 'error'
+                });
+            }
+            this.username = res.data.username;
+        })
+    },
+    methods: {
+        loginOut () {
+            this.$ajax({
+                url: `${process.env.API_MYBLOG_PATH}/loginOut`
+            }).then(res => {
+                if (!res.isSuccess) {
+                    return this.$message({
+                        message: res.message,
+                        type: 'error'
+                    });
+                }
+                this.$router.push('/');
+            })
+        }
+    }
 };
 
 </script>
@@ -29,6 +61,9 @@ export default {
     .loginout{
         font-size: 14px;
         cursor: pointer;
+    }
+    .user{
+        margin-right: 8px;
     }
 
 }

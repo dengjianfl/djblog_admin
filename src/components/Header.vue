@@ -12,7 +12,7 @@
 export default {
     data () {
         return {
-           username: ''
+            username: ''
         };
     },
     mounted () {
@@ -26,21 +26,27 @@ export default {
                 });
             }
             this.username = res.data.username;
-        })
+        });
     },
     methods: {
         loginOut () {
-            this.$ajax({
-                url: `${process.env.API_MYBLOG_PATH}/loginOut`
-            }).then(res => {
-                if (!res.isSuccess) {
-                    return this.$message({
-                        message: res.message,
-                        type: 'error'
-                    });
-                }
-                this.$router.push('/');
-            })
+            this.$confirm('请确定是否退出登录', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                this.$ajax({
+                    url: `${process.env.API_MYBLOG_PATH}/loginOut`
+                }).then(res => {
+                    if (!res.isSuccess) {
+                        return this.$message({
+                            message: res.message,
+                            type: 'error'
+                        });
+                    }
+                    this.$router.push('/');
+                });
+            }).catch();
         }
     }
 };

@@ -34,7 +34,7 @@
             </el-form-item>
             <el-form-item label="" label-width="400px">
                 <el-button type="primary" @click="pulish">保存并发布</el-button>
-                <el-button @click="cancel">取消</el-button>
+                <el-button>保存</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -97,16 +97,17 @@ export default {
         'base-side': BaseSide
     },
     mounted () {
-
+        this.getOneBlog();
     },
     methods: {
-        // 保存发布
         pulish () {
             this.$refs.blogForm.validate((valid) => {
                 if (valid) {
                     this.$ajax({
-                        url: `${process.env.API_MYBLOG_PATH}/addOneBlog`,
-                        data: this.blogContent
+                        url: `${process.env.API_MYBLOG_PATH}/updateOneBlog`,
+                        data: Object.assign({}, {
+                            id: this.$route.query.id
+                        }, this.blogContent)
                     }).then(res => {
                         if (!res.isSuccess) {
                             return this.$message({
@@ -119,7 +120,7 @@ export default {
                             message: res.message,
                             type: 'success',
                             onClose: function () {
-                                _this.$router.push('/home');
+                                _this.$router.back();
                             }
                         });
                     });
@@ -128,9 +129,22 @@ export default {
                 }
             });
         },
-        // 取消
-        cancel () {
-            this.$router.push('/home');
+        // 获取一篇博客
+        getOneBlog () {
+            this.$ajax({
+                url: `${process.env.API_MYBLOG_PATH}/getOneBlog`,
+                data: {
+                    id: this.$route.query.id
+                }
+            }).then(res => {
+                if (!res.isSuccess) {
+                    return this.$message({
+                        message: res.message,
+                        type: 'error'
+                    });
+                }
+                this.blogContent = res.data;
+            });
         }
     }
 };

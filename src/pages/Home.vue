@@ -3,40 +3,29 @@
         <top-head></top-head>
         <base-side></base-side>
         <div class="table-wrap">
+            <search-area></search-area>
             <el-table
                 :data="tableData"
-                border
-                style="width: 100%">
-                <el-table-column align="center"
+                border>
+                <el-table-column
+                    align="center"
                     type="index"
                     width="50">
                 </el-table-column>
-                <el-table-column align="center"
-                    prop="createTime"
-                    label="发布日期"
-                    width="180">
-                </el-table-column>
-                <el-table-column align="center"
-                    prop="author"
-                    label="作者"
-                    width="180">
-                </el-table-column>
-                <el-table-column align="center"
-                    prop="tag"
-                    label="分类"
-                    width="180">
-                </el-table-column>
-                <el-table-column align="center"
-                    prop="title"
-                    label="标题">
-                </el-table-column>
                 <el-table-column
-                    fixed="right"
-                    label="操作"
-                    width="100">
+                    v-for="(col, idx) in columns"
+                    :key="idx"
+                    :prop="col.prop"
+                    :label="col.label"
+                    :min-width="col.width"
+                    :fixed="col.fixed"
+                    align="center">
                     <template slot-scope="scope">
-                        <el-button @click="edit(scope.row.id)" type="text" size="small">编辑</el-button>
-                        <el-button @click="remove(scope.row.id)" type="text" size="small">删除</el-button>
+                        <div v-if="col.prop === 'handle'">
+                            <el-button @click="edit(scope.row.id)" type="text" size="small">编辑</el-button>
+                            <el-button @click="remove(scope.row.id)" type="text" size="small">删除</el-button>
+                        </div>
+                        <div v-else>{{scope.row[col.prop]}}</div>
                     </template>
                 </el-table-column>
             </el-table>
@@ -59,6 +48,7 @@
 <script>
 import Header from '../components/Header';
 import BaseSide from '../components/BaseSide';
+import SearchArea from '../components/SearchArea';
 import {timeFormat} from '../utils/tools';
 export default {
     data () {
@@ -67,12 +57,20 @@ export default {
             pageNo: 1,
             total: 0,
             pageSize: 5, // 默认为5
-            pageSizes: [5, 10, 15, 20]
+            pageSizes: [5, 10, 15, 20],
+            columns: [
+                { prop: 'title', label: '标题', width: '180' },
+                { prop: 'author', label: '作者', width: '100' },
+                { prop: 'tag', label: '分类', width: '100' },
+                { prop: 'createTime', label: '发布日期', width: '180' },
+                { prop: 'handle', label: '操作', width: '100', fixed: 'right' }
+            ]
         };
     },
     components: {
         'top-head': Header,
-        'base-side': BaseSide
+        'base-side': BaseSide,
+        'search-area': SearchArea
     },
     mounted () {
         this.getBlogs(this.pageNo, this.pageSize);
@@ -155,16 +153,17 @@ export default {
 };
 </script>
 <style lang="scss">
-.home-page{
-
-    .table-wrap{
-        padding-top: 50px;
-        padding-left: 240px;
-        padding-right: 200px;
+    .home-page{
+        width: 100%;
+        height: 100%;
+        .table-wrap{
+            height: 80%;
+            padding: 20px;
+            float: left;
+        }
+        .blog-pagination{
+            text-align: right;
+            margin-top: 16px;
+        }
     }
-    .blog-pagination{
-        text-align: right;
-        margin-top: 16px;
-    }
-}
 </style>

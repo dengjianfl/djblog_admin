@@ -2,7 +2,11 @@
     <div class="add-page">
         <top-head></top-head>
         <base-side></base-side>
-        <el-form :model="blogContent" :rules="rules" ref="blogForm" class="form-add" label-position="left">
+        <el-form :model="blogContent" :rules="rules" ref="blogForm" class="form-add">
+            <div style="margin-bottom:10px;">
+                <el-button type="primary" @click="pulish" size="mini">保存并发布</el-button>
+                <el-button @click="cancel" size="mini">取消</el-button>
+            </div>
             <el-form-item label="标题" label-width="60px" prop="title">
                 <el-input v-model="blogContent.title" prefix-icon="el-icon-edit" placeholder="请输入标题"></el-input>
             </el-form-item>
@@ -31,10 +35,6 @@
                     ref="myQuillEditor"
                     :options="editorOption">
                 </quill-editor>
-            </el-form-item>
-            <el-form-item label="" label-width="400px">
-                <el-button type="primary" @click="pulish">保存并发布</el-button>
-                <el-button>保存</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -145,22 +145,29 @@ export default {
                 }
                 this.blogContent = res.data;
             });
+        },
+        // 取消
+        cancel () {
+            this.$router.push('/home');
         }
     }
 };
 </script>
 <style lang='scss'>
 .add-page{
+    width: 100%;
+    height: 100%;
     .form-add{
-        padding-top: 50px;
-        padding-left: 180px;
-        padding-right: 300px;
+        height: 80%;
+        padding: 20px;
+        float: left;
+        width: 77%;
     }
     .quill-editor{
         background-color: #fff;
     }
     .ql-container{
-        min-height: 250px;
+        height: 180px;
     }
 }
 </style>

@@ -59,7 +59,8 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #80B4EA;
+    background-color: #000;
+    opacity: 0.8;
     color: #fff;
     font-size: 16px;
     height: 40px;
